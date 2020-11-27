@@ -2,6 +2,22 @@ $(function () {
 
     let layer = layui.layer;
 
+    //获取头像和昵称
+    getAvatarAndName();
+
+    //退出功能
+    $("#logouBtn").click(function () {
+
+        layer.confirm('确认退出吗?', { icon: 3, title: '提示' }, function (index) {
+            //该函数会在点击确认的时候执行
+            //console.log(233);
+            localStorage.removeItem("token");
+            location.href = "login.html";
+            layer.close(index);//关闭当前的询问框
+        });
+    })
+});
+function getAvatarAndName() {
     //获取头像和昵称基本信息
     $.ajax({
         url: "/my/userinfo",
@@ -10,7 +26,7 @@ $(function () {
         //     Authorization: localStorage.getItem("token"),
         // },
         success: function (res) {
-            console.log(res);
+            //console.log(res);
 
             if (res.status !== 0) {
                 return layer.msg("获取用户失败")
@@ -45,16 +61,4 @@ $(function () {
             }
         }
     })
-
-    //退出功能
-    $("#logouBtn").click(function () {
-
-        layer.confirm('确认退出吗?', { icon: 3, title: '提示' }, function (index) {
-            //该函数会在点击确认的时候执行
-            //console.log(233);
-            localStorage.removeItem("token");
-            location.href = "login.html";
-            layer.close(index);//关闭当前的询问框
-        });
-    })
-})
+}
